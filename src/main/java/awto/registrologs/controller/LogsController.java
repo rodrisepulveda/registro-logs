@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import awto.registrologs.model.Log;
-import awto.registrologs.service.RegistroLogsService;
+import awto.registrologs.service.LogsService;
 import awto.registrologs.service.util.Constantes;
 
 /**
@@ -18,20 +18,20 @@ import awto.registrologs.service.util.Constantes;
  *
  */
 @RestController
-public class RegistroLogsController {
+public class LogsController {
 
 	/**
 	 * Objeto service para el crud de manejo de logs de la empresa.
 	 */
 	@Autowired
-	private RegistroLogsService registroLogsService;
+	private LogsService logsService;
 
 	@PostMapping(value = "logs")
 	public ResponseEntity<String> logs(@RequestBody Log log) {
 
-		registroLogsService.ingresarLog(log);
+		logsService.saveLog(log);
 
-		return new ResponseEntity<>(Constantes.RESPUESTA_REST_OK, HttpStatus.OK);
+		return new ResponseEntity<>(Constantes.REST_RESPONSE_OK, HttpStatus.OK);
 
 	}
 

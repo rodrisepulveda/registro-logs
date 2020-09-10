@@ -23,7 +23,7 @@ import awto.registrologs.repository.AwlogLoggerRepository;
  *
  */
 @Service
-public class RegistroLogsService {
+public class LogsService {
 
 	/**
 	 * Apuntador al repositorio CRUD para la entidad AwlogLogger.
@@ -50,7 +50,7 @@ public class RegistroLogsService {
 	 * @param log
 	 *            objeto los a insertar.
 	 */
-	public void ingresarLog(Log log) {
+	public void saveLog(Log log) {
 
 		if (log.getHashtags() == null || log.getHashtags().isEmpty()) {
 
