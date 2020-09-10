@@ -11,7 +11,8 @@ import awto.registrologs.entity.AwlogHashtag;
 import awto.registrologs.entity.AwlogLogger;
 import awto.registrologs.entity.AwlogLoggerHashtag;
 import awto.registrologs.exeption.BadRequestRuntime;
-import awto.registrologs.model.Log;
+import awto.registrologs.model.LogRequest;
+import awto.registrologs.model.LogResponse;
 import awto.registrologs.repository.AwlogHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerRepository;
@@ -29,7 +30,7 @@ public class LogsService {
 	 * Apuntador al repositorio CRUD para la entidad AwlogLogger.
 	 */
 	@Autowired
-	private AwlogLoggerRepository registroLogsRepository;
+	private AwlogLoggerRepository awlogLoggerRepository;
 
 	/**
 	 * Apuntador al repositorio CRUD para la entidad AwlogHashtag.
@@ -48,9 +49,9 @@ public class LogsService {
 	 * correspondientes.
 	 * 
 	 * @param log
-	 *            objeto los a insertar.
+	 *            objeto de log a insertar.
 	 */
-	public void saveLog(Log log) {
+	public void saveLog(LogRequest log) {
 
 		if (log.getHashtags() == null || log.getHashtags().isEmpty()) {
 
@@ -70,7 +71,7 @@ public class LogsService {
 
 		awlogLogger.setStacktrace(log.getStacktrace());
 
-		registroLogsRepository.save(awlogLogger);
+		awlogLoggerRepository.save(awlogLogger);
 
 		List<AwlogHashtag> listaAwlogHashtag = new LinkedList<>();
 
@@ -105,6 +106,47 @@ public class LogsService {
 		}
 
 		awlogLoggerHashtagRepository.saveAll(listaAwlogLoggerHashtag);
+
+	}
+
+	/**
+	 * Lista todos los registros de log.
+	 * 
+	 * @return lista de registros de logs y cada uno con sus hashtags asociados.
+	 */
+	public List<LogResponse> findLogs() {
+
+		List<LogResponse> listLogResponse = new LinkedList<>();
+
+		for (AwlogLogger awlogLogger : awlogLoggerRepository.findAll()) {
+
+			LogResponse logResponse = new LogResponse();
+
+			logResponse.setDetails(awlogLogger.getDetails());
+
+			logResponse.setHost(awlogLogger.getHost());
+
+			logResponse.setId(awlogLogger.getId());
+
+			logResponse.setOrigin(awlogLogger.getOrigin());
+
+			logResponse.setStacktrace(awlogLogger.getStacktrace());
+
+			List<String> listHashTags = new LinkedList<>();
+
+			for (AwlogLoggerHashtag awlogLoggerHashtag : awlogLogger.getAwlogLoggerHashtagList()) {
+
+				listHashTags.add(awlogLoggerHashtag.getAwlogHashtag().getDescription());
+
+			}
+
+			logResponse.setHashtags(listHashTags);
+
+			listLogResponse.add(logResponse);
+
+		}
+
+		return listLogResponse;
 
 	}
 
