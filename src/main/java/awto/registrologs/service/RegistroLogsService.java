@@ -16,18 +16,40 @@ import awto.registrologs.repository.AwlogHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerRepository;
 
+/**
+ * Clase service para el crud de manejo de logs de la empresa.
+ * 
+ * @author Rodrigo Sepúlveda.
+ *
+ */
 @Service
 public class RegistroLogsService {
 
+	/**
+	 * Apuntador al repositorio CRUD para la entidad AwlogLogger.
+	 */
 	@Autowired
 	private AwlogLoggerRepository registroLogsRepository;
 
+	/**
+	 * Apuntador al repositorio CRUD para la entidad AwlogHashtag.
+	 */
 	@Autowired
 	private AwlogHashtagRepository awlogHashtagRepository;
 
+	/**
+	 * Apuntador al repositorio CRUD para la entidad AwlogLoggerHashtag.
+	 */
 	@Autowired
 	private AwlogLoggerHashtagRepository awlogLoggerHashtagRepository;
 
+	/**
+	 * Ingresa un registro de log a la base de datos asociado a el o los hashtags
+	 * correspondientes.
+	 * 
+	 * @param log
+	 *            objeto los a insertar.
+	 */
 	public void ingresarLog(Log log) {
 
 		if (log.getHashtags() == null || log.getHashtags().isEmpty()) {

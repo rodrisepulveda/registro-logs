@@ -11,9 +11,18 @@ import awto.registrologs.model.Log;
 import awto.registrologs.service.RegistroLogsService;
 import awto.registrologs.service.util.Constantes;
 
+/**
+ * Rest controller para el manejo de logs.
+ * 
+ * @author Rodrigo Sepúlveda.
+ *
+ */
 @RestController
 public class RegistroLogsController {
 
+	/**
+	 * Objeto service para el crud de manejo de logs de la empresa.
+	 */
 	@Autowired
 	private RegistroLogsService registroLogsService;
 
