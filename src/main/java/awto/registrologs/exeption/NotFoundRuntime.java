@@ -1,12 +1,12 @@
 package awto.registrologs.exeption;
 
 /**
- * Excepcion que se lanza cuando la petición es incorrecta.
+ * Excepción que se lanza cuando un recurso solicitado no está disponible.
  * 
  * @author Rodrigo Sepúlveda.
  *
  */
-public class BadRequestRuntime extends RuntimeException {
+public class NotFoundRuntime extends RuntimeException {
 
 	/**
 	 * Serie.
@@ -19,7 +19,7 @@ public class BadRequestRuntime extends RuntimeException {
 	 * @param mensaje
 	 *            mensaje asociado a la excepción.
 	 */
-	public BadRequestRuntime(String mensaje) {
+	public NotFoundRuntime(String mensaje) {
 
 		super(mensaje);
 

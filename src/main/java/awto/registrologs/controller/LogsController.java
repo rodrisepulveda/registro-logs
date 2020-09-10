@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,12 +50,24 @@ public class LogsController {
 	/**
 	 * Método Http que obtiene todos los logs.
 	 * 
-	 * @return
+	 * @return lista de logs que guardados.
 	 */
 	@GetMapping(value = "logs")
 	public ResponseEntity<List<LogResponse>> getLogs() {
 
 		return new ResponseEntity<>(logsService.findLogs(), HttpStatus.OK);
+
+	}
+
+	/**
+	 * Método Http que obtiene todos los logs.
+	 * 
+	 * @return lista de logs que guardados.
+	 */
+	@GetMapping(value = "logs/{hashtag}")
+	public ResponseEntity<List<LogResponse>> getLogsByHashTag(@PathVariable String hashtag) {
+
+		return new ResponseEntity<>(logsService.findLogs(hashtag), HttpStatus.OK);
 
 	}
 

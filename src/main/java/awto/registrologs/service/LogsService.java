@@ -11,11 +11,13 @@ import awto.registrologs.entity.AwlogHashtag;
 import awto.registrologs.entity.AwlogLogger;
 import awto.registrologs.entity.AwlogLoggerHashtag;
 import awto.registrologs.exeption.BadRequestRuntime;
+import awto.registrologs.exeption.NotFoundRuntime;
 import awto.registrologs.model.LogRequest;
 import awto.registrologs.model.LogResponse;
 import awto.registrologs.repository.AwlogHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerRepository;
+import awto.registrologs.service.util.Util;
 
 /**
  * Clase service para el crud de manejo de logs de la empresa.
@@ -79,11 +81,13 @@ public class LogsService {
 
 		for (String hashTag : log.getHashtags()) {
 
-			AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(hashTag);
+			AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(Util.obtenerHashTagSinGato(hashTag));
 
-			if (awlogHashtag != null) {
+			if (awlogHashtag == null) {
 
-				awlogHashtag.setDescription(hashTag);
+				awlogHashtag = new AwlogHashtag();
+
+				awlogHashtag.setDescription(Util.obtenerHashTagSinGato(hashTag));
 
 				listaAwlogHashtag.add(awlogHashtag);
 
@@ -136,7 +140,63 @@ public class LogsService {
 
 			for (AwlogLoggerHashtag awlogLoggerHashtag : awlogLogger.getAwlogLoggerHashtagList()) {
 
-				listHashTags.add(awlogLoggerHashtag.getAwlogHashtag().getDescription());
+				listHashTags.add(
+						Util.agregarGatoAHashtagSiNoLoTiene(awlogLoggerHashtag.getAwlogHashtag().getDescription()));
+
+			}
+
+			logResponse.setHashtags(listHashTags);
+
+			listLogResponse.add(logResponse);
+
+		}
+
+		return listLogResponse;
+
+	}
+
+	/**
+	 * Lista los registros de log asociados a un hashtag.
+	 * 
+	 * @param hashtag
+	 *            filtro por hashtag.
+	 * @return lista de registros de logs asociados al hashtag y cada uno con sus
+	 *         hashtags asociados.
+	 */
+	public List<LogResponse> findLogs(String hashTag) {
+
+		AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(hashTag);
+
+		if (awlogHashtag == null) {
+
+			throw new NotFoundRuntime("El HashTag solicitado no existe.");
+
+		}
+
+		List<LogResponse> listLogResponse = new LinkedList<>();
+
+		for (AwlogLoggerHashtag awlogLoggerHashtag : awlogHashtag.getAwlogLoggerHashtagList()) {
+
+			AwlogLogger awlogLogger = awlogLoggerHashtag.getAwlogLogger();
+
+			LogResponse logResponse = new LogResponse();
+
+			logResponse.setDetails(awlogLogger.getDetails());
+
+			logResponse.setHost(awlogLogger.getHost());
+
+			logResponse.setId(awlogLogger.getId());
+
+			logResponse.setOrigin(awlogLogger.getOrigin());
+
+			logResponse.setStacktrace(awlogLogger.getStacktrace());
+
+			List<String> listHashTags = new LinkedList<>();
+
+			for (AwlogLoggerHashtag awlogLoggerHashtagLinked : awlogLogger.getAwlogLoggerHashtagList()) {
+
+				listHashTags.add(Util
+						.agregarGatoAHashtagSiNoLoTiene(awlogLoggerHashtagLinked.getAwlogHashtag().getDescription()));
 
 			}
 

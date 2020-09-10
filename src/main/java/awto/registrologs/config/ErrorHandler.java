@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import awto.registrologs.exeption.BadRequestRuntime;
+import awto.registrologs.exeption.NotFoundRuntime;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,6 +21,16 @@ public class ErrorHandler {
 		log.error(exception.getMessage(), exception);
 
 		return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+
+	}
+
+	@ExceptionHandler(NotFoundRuntime.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<String> handle(NotFoundRuntime exception) {
+
+		log.error(exception.getMessage(), exception);
+
+		return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
 
 	}
 
