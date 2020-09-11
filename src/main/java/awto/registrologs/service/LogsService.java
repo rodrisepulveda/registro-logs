@@ -6,12 +6,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import awto.registrologs.entity.AwlogHashtag;
 import awto.registrologs.entity.AwlogLogger;
 import awto.registrologs.entity.AwlogLoggerHashtag;
 import awto.registrologs.exeption.BadRequestRuntime;
 import awto.registrologs.exeption.NotFoundRuntime;
+import awto.registrologs.model.HashTagRequest;
 import awto.registrologs.model.LogRequest;
 import awto.registrologs.model.LogResponse;
 import awto.registrologs.repository.AwlogHashtagRepository;
@@ -53,6 +56,7 @@ public class LogsService {
 	 * @param log
 	 *            objeto de log a insertar.
 	 */
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveLog(LogRequest log) {
 
 		if (log.getHashtags() == null || log.getHashtags().isEmpty()) {
@@ -210,10 +214,17 @@ public class LogsService {
 
 	}
 
+	/**
+	 * Busca un log por si identificador.
+	 * 
+	 * @param id
+	 *            identificador de los.
+	 * @return objeto Log.
+	 */
 	public LogResponse findLog(Integer id) {
 
 		LogResponse logResponse = new LogResponse();
-		
+
 		java.util.Optional<AwlogLogger> optAwlogLogger = awlogLoggerRepository.findById(id);
 
 		if (!optAwlogLogger.isPresent()) {
@@ -246,6 +257,35 @@ public class LogsService {
 		logResponse.setHashtags(listHashTags);
 
 		return logResponse;
+	}
+
+	/**
+	 * Actualiza el nombre de un hashtag por su identificador.
+	 * 
+	 * @param hashTagRequest
+	 *            objeto hashtag a modificar.
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateHastag(HashTagRequest hashTagRequest) {
+
+		if (Util.obtenerHashTagSinGato(hashTagRequest.getDescription()).trim().equals("")) {
+
+			throw new BadRequestRuntime("Descripción de hashtag vacia.");
+
+		}
+
+		AwlogHashtag awlogHashtagExistente = awlogHashtagRepository
+				.findByDescription(Util.obtenerHashTagSinGato(hashTagRequest.getDescription()));
+
+		if (awlogHashtagExistente != null) {
+
+			throw new BadRequestRuntime("Ya existe un hashtag con el nombre " + hashTagRequest.getDescription());
+
+		}
+
+		awlogHashtagRepository.updateDescription(hashTagRequest.getId(),
+				Util.obtenerHashTagSinGato(hashTagRequest.getDescription()));
+
 	}
 
 }

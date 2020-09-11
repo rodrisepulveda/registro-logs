@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import awto.registrologs.model.HashTagRequest;
 import awto.registrologs.model.LogRequest;
 import awto.registrologs.model.LogResponse;
 import awto.registrologs.service.LogsService;
@@ -80,6 +82,22 @@ public class LogsController {
 	public ResponseEntity<LogResponse> getLogsById(@PathVariable Integer id) {
 
 		return new ResponseEntity<>(logsService.findLog(id), HttpStatus.OK);
+
+	}
+
+	/**
+	 * Método Http que inserta logs.
+	 * 
+	 * @param log
+	 *            objeto del log a insertar.
+	 * @return
+	 */
+	@PutMapping(value = "hastags")
+	public ResponseEntity<String> putHastags(@RequestBody HashTagRequest hashTagRequest) {
+
+		logsService.updateHastag(hashTagRequest);
+
+		return new ResponseEntity<>(Constantes.REST_RESPONSE_OK, HttpStatus.OK);
 
 	}
 
