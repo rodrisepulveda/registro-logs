@@ -128,18 +128,6 @@ public class LogsService {
 
 		for (AwlogLogger awlogLogger : awlogLoggerRepository.findAll()) {
 
-			LogResponse logResponse = new LogResponse();
-
-			logResponse.setDetails(awlogLogger.getDetails());
-
-			logResponse.setHost(awlogLogger.getHost());
-
-			logResponse.setId(awlogLogger.getId());
-
-			logResponse.setOrigin(awlogLogger.getOrigin());
-
-			logResponse.setStacktrace(awlogLogger.getStacktrace());
-
 			List<String> listHashTags = new LinkedList<>();
 
 			for (AwlogLoggerHashtag awlogLoggerHashtag : awlogLogger.getAwlogLoggerHashtagList()) {
@@ -149,9 +137,8 @@ public class LogsService {
 
 			}
 
-			logResponse.setHashtags(listHashTags);
-
-			listLogResponse.add(logResponse);
+			listLogResponse.add(LogResponse.builder().details(awlogLogger.getDetails()).host(awlogLogger.getHost())
+					.id(awlogLogger.getId()).origin(awlogLogger.getOrigin()).hashtags(listHashTags).build());
 
 		}
 
@@ -176,18 +163,6 @@ public class LogsService {
 
 			AwlogLogger awlogLogger = awlogLoggerHashtag.getAwlogLogger();
 
-			LogResponse logResponse = new LogResponse();
-
-			logResponse.setDetails(awlogLogger.getDetails());
-
-			logResponse.setHost(awlogLogger.getHost());
-
-			logResponse.setId(awlogLogger.getId());
-
-			logResponse.setOrigin(awlogLogger.getOrigin());
-
-			logResponse.setStacktrace(awlogLogger.getStacktrace());
-
 			List<String> listHashTags = new LinkedList<>();
 
 			for (AwlogLoggerHashtag awlogLoggerHashtagLinked : awlogLogger.getAwlogLoggerHashtagList()) {
@@ -197,9 +172,8 @@ public class LogsService {
 
 			}
 
-			logResponse.setHashtags(listHashTags);
-
-			listLogResponse.add(logResponse);
+			listLogResponse.add(LogResponse.builder().details(awlogLogger.getDetails()).host(awlogLogger.getHost())
+					.id(awlogLogger.getId()).origin(awlogLogger.getOrigin()).hashtags(listHashTags).build());
 
 		}
 
@@ -216,8 +190,6 @@ public class LogsService {
 	 */
 	public LogResponse findLog(Integer id) {
 
-		LogResponse logResponse = new LogResponse();
-
 		java.util.Optional<AwlogLogger> optAwlogLogger = awlogLoggerRepository.findById(id);
 
 		if (!optAwlogLogger.isPresent()) {
@@ -228,16 +200,6 @@ public class LogsService {
 
 		AwlogLogger awlogLogger = optAwlogLogger.get();
 
-		logResponse.setDetails(awlogLogger.getDetails());
-
-		logResponse.setHost(awlogLogger.getHost());
-
-		logResponse.setId(awlogLogger.getId());
-
-		logResponse.setOrigin(awlogLogger.getOrigin());
-
-		logResponse.setStacktrace(awlogLogger.getStacktrace());
-
 		List<String> listHashTags = new LinkedList<>();
 
 		for (AwlogLoggerHashtag awlogLoggerHashtag : awlogLogger.getAwlogLoggerHashtagList()) {
@@ -247,9 +209,8 @@ public class LogsService {
 
 		}
 
-		logResponse.setHashtags(listHashTags);
-
-		return logResponse;
+		return LogResponse.builder().details(awlogLogger.getDetails()).host(awlogLogger.getHost())
+				.id(awlogLogger.getId()).origin(awlogLogger.getOrigin()).hashtags(listHashTags).build();
 	}
 
 	/**
