@@ -71,4 +71,16 @@ public class LogsController {
 
 	}
 
+	/**
+	 * Método Http que obtiene un log por si identificador..
+	 * 
+	 * @return objeto Log.
+	 */
+	@GetMapping(value = "log/{id}")
+	public ResponseEntity<LogResponse> getLogsById(@PathVariable Integer id) {
+
+		return new ResponseEntity<>(logsService.findLog(id), HttpStatus.OK);
+
+	}
+
 }

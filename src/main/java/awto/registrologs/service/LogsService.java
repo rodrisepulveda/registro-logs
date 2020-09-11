@@ -210,4 +210,42 @@ public class LogsService {
 
 	}
 
+	public LogResponse findLog(Integer id) {
+
+		LogResponse logResponse = new LogResponse();
+		
+		java.util.Optional<AwlogLogger> optAwlogLogger = awlogLoggerRepository.findById(id);
+
+		if (!optAwlogLogger.isPresent()) {
+
+			throw new NotFoundRuntime("No existe un Log con el identificador " + id);
+
+		}
+
+		AwlogLogger awlogLogger = optAwlogLogger.get();
+
+		logResponse.setDetails(awlogLogger.getDetails());
+
+		logResponse.setHost(awlogLogger.getHost());
+
+		logResponse.setId(awlogLogger.getId());
+
+		logResponse.setOrigin(awlogLogger.getOrigin());
+
+		logResponse.setStacktrace(awlogLogger.getStacktrace());
+
+		List<String> listHashTags = new LinkedList<>();
+
+		for (AwlogLoggerHashtag awlogLoggerHashtag : awlogLogger.getAwlogLoggerHashtagList()) {
+
+			listHashTags
+					.add(Util.agregarGatoAHashtagSiNoLoTiene(awlogLoggerHashtag.getAwlogHashtag().getDescription()));
+
+		}
+
+		logResponse.setHashtags(listHashTags);
+
+		return logResponse;
+	}
+
 }
