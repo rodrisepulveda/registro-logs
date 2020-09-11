@@ -167,19 +167,12 @@ public class LogsService {
 	 * @return lista de registros de logs asociados al hashtag y cada uno con sus
 	 *         hashtags asociados.
 	 */
-	public List<LogResponse> findLogs(String hashTag) {
-
-		AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(hashTag);
-
-		if (awlogHashtag == null) {
-
-			throw new NotFoundRuntime("El HashTag solicitado no existe.");
-
-		}
+	public List<LogResponse> findLogs(String description) {
 
 		List<LogResponse> listLogResponse = new LinkedList<>();
 
-		for (AwlogLoggerHashtag awlogLoggerHashtag : awlogHashtag.getAwlogLoggerHashtagList()) {
+		for (AwlogLoggerHashtag awlogLoggerHashtag : awlogHashtagRepository
+				.findListAwlogLoggerHashtagByDescription(description)) {
 
 			AwlogLogger awlogLogger = awlogLoggerHashtag.getAwlogLogger();
 
