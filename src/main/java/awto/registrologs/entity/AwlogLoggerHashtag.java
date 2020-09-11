@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Entidad que referencia a la tabla awlog_hashtag.
  * 
@@ -20,6 +23,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "awlog_logger_hashtag")
+@Value
+@Builder
 public class AwlogLoggerHashtag implements Serializable {
 
 	/**
@@ -49,36 +54,5 @@ public class AwlogLoggerHashtag implements Serializable {
 	@JoinColumn(name = "hastag_id", referencedColumnName = "id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private AwlogHashtag awlogHashtag;
-
-	public AwlogLoggerHashtag() {
-	}
-
-	public AwlogLoggerHashtag(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public AwlogLogger getAwlogLogger() {
-		return awlogLogger;
-	}
-
-	public void setAwlogLogger(AwlogLogger awlogLogger) {
-		this.awlogLogger = awlogLogger;
-	}
-
-	public AwlogHashtag getAwlogHashtag() {
-		return awlogHashtag;
-	}
-
-	public void setAwlogHashtag(AwlogHashtag awlogHashtag) {
-		this.awlogHashtag = awlogHashtag;
-	}
 
 }

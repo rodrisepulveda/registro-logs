@@ -17,7 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
+
+import lombok.Builder;
+import lombok.Value;
 
 /**
  *
@@ -25,6 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "awlog_logger")
+@Value
+@Builder
 public class AwlogLogger implements Serializable {
 
 	/**
@@ -83,69 +87,5 @@ public class AwlogLogger implements Serializable {
 	 */
 	@OneToMany(mappedBy = "awlogLogger", fetch = FetchType.LAZY)
 	private List<AwlogLoggerHashtag> awlogLoggerHashtagList;
-
-	public AwlogLogger() {
-	}
-
-	public AwlogLogger(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public String getOrigin() {
-		return origin;
-	}
-
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
-
-	public String getDetails() {
-		return details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-
-	public String getStacktrace() {
-		return stacktrace;
-	}
-
-	public void setStacktrace(String stacktrace) {
-		this.stacktrace = stacktrace;
-	}
-
-	@XmlTransient
-	public List<AwlogLoggerHashtag> getAwlogLoggerHashtagList() {
-		return awlogLoggerHashtagList;
-	}
-
-	public void setAwlogLoggerHashtagList(List<AwlogLoggerHashtag> awlogLoggerHashtagList) {
-		this.awlogLoggerHashtagList = awlogLoggerHashtagList;
-	}
 
 }

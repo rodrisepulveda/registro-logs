@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Entidad asociada a la tabla awlog_logger.
  * 
@@ -21,6 +24,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "awlog_hashtag")
+@Value
+@Builder
 public class AwlogHashtag implements Serializable {
 
 	/**
@@ -49,36 +54,5 @@ public class AwlogHashtag implements Serializable {
 	 */
 	@OneToMany(mappedBy = "awlogHashtag", fetch = FetchType.LAZY)
 	private List<AwlogLoggerHashtag> awlogLoggerHashtagList;
-
-	public AwlogHashtag() {
-	}
-
-	public AwlogHashtag(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public List<AwlogLoggerHashtag> getAwlogLoggerHashtagList() {
-		return awlogLoggerHashtagList;
-	}
-
-	public void setAwlogLoggerHashtagList(List<AwlogLoggerHashtag> awlogLoggerHashtagList) {
-		this.awlogLoggerHashtagList = awlogLoggerHashtagList;
-	}
 
 }

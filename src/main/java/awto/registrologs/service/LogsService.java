@@ -65,17 +65,8 @@ public class LogsService {
 
 		}
 
-		AwlogLogger awlogLogger = new AwlogLogger();
-
-		awlogLogger.setCreationDate(new Date());
-
-		awlogLogger.setDetails(log.getDetails());
-
-		awlogLogger.setHost(log.getHost());
-
-		awlogLogger.setOrigin(log.getOrigin());
-
-		awlogLogger.setStacktrace(log.getStacktrace());
+		AwlogLogger awlogLogger = AwlogLogger.builder().creationDate(new Date()).details(log.getDetails())
+				.host(log.getHost()).origin(log.getOrigin()).stacktrace(log.getStacktrace()).build();
 
 		awlogLoggerRepository.save(awlogLogger);
 
@@ -83,27 +74,21 @@ public class LogsService {
 
 		List<AwlogLoggerHashtag> listaAwlogLoggerHashtag = new LinkedList<>();
 
+		log.getHashtags().stream()
+				.forEach(hashTag -> awlogHashtagRepository.findByDescription(Util.obtenerHashTagSinGato(hashTag)));
+
 		for (String hashTag : log.getHashtags()) {
 
 			AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(Util.obtenerHashTagSinGato(hashTag));
 
 			if (awlogHashtag == null) {
 
-				awlogHashtag = new AwlogHashtag();
-
-				awlogHashtag.setDescription(Util.obtenerHashTagSinGato(hashTag));
-
-				listaAwlogHashtag.add(awlogHashtag);
+				listaAwlogHashtag.add(AwlogHashtag.builder().description(Util.obtenerHashTagSinGato(hashTag)).build());
 
 			}
 
-			AwlogLoggerHashtag awlogLoggerHashtag = new AwlogLoggerHashtag();
-
-			awlogLoggerHashtag.setAwlogHashtag(awlogHashtag);
-
-			awlogLoggerHashtag.setAwlogLogger(awlogLogger);
-
-			listaAwlogLoggerHashtag.add(awlogLoggerHashtag);
+			listaAwlogLoggerHashtag
+					.add(AwlogLoggerHashtag.builder().awlogHashtag(awlogHashtag).awlogLogger(awlogLogger).build());
 
 		}
 
