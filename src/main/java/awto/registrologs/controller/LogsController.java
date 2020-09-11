@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import awto.registrologs.model.HashTagRequest;
 import awto.registrologs.model.LogRequest;
 import awto.registrologs.model.LogResponse;
+import awto.registrologs.model.LogsResponse;
 import awto.registrologs.service.LogsService;
 import awto.registrologs.service.util.Constantes;
 
@@ -55,7 +56,7 @@ public class LogsController {
 	 * @return lista de logs que guardados.
 	 */
 	@GetMapping(value = "logs")
-	public ResponseEntity<List<LogResponse>> getLogs() {
+	public ResponseEntity<LogsResponse> getLogs() {
 
 		return new ResponseEntity<>(logsService.findLogs(), HttpStatus.OK);
 

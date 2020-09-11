@@ -17,6 +17,7 @@ import awto.registrologs.exeption.NotFoundRuntime;
 import awto.registrologs.model.HashTagRequest;
 import awto.registrologs.model.LogRequest;
 import awto.registrologs.model.LogResponse;
+import awto.registrologs.model.LogsResponse;
 import awto.registrologs.repository.AwlogHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerHashtagRepository;
 import awto.registrologs.repository.AwlogLoggerRepository;
@@ -106,7 +107,7 @@ public class LogsService {
 	 * 
 	 * @return lista de registros de logs y cada uno con sus hashtags asociados.
 	 */
-	public List<LogResponse> findLogs() {
+	public LogsResponse findLogs() {
 
 		List<LogResponse> listLogResponse = new LinkedList<>();
 
@@ -126,7 +127,7 @@ public class LogsService {
 
 		}
 
-		return listLogResponse;
+		return LogsResponse.builder().logs(listLogResponse).build();
 
 	}
 
