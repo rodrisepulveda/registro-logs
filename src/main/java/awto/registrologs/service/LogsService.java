@@ -74,9 +74,6 @@ public class LogsService {
 
 		List<AwlogLoggerHashtag> listaAwlogLoggerHashtag = new LinkedList<>();
 
-		log.getHashtags().stream()
-				.forEach(hashTag -> awlogHashtagRepository.findByDescription(Util.obtenerHashTagSinGato(hashTag)));
-
 		for (String hashTag : log.getHashtags()) {
 
 			AwlogHashtag awlogHashtag = awlogHashtagRepository.findByDescription(Util.obtenerHashTagSinGato(hashTag));
