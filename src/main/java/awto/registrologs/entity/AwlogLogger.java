@@ -18,8 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -27,8 +29,10 @@ import lombok.Value;
  */
 @Entity
 @Table(name = "awlog_logger")
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AwlogLogger implements Serializable {
 
 	/**

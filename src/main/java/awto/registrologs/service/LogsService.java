@@ -80,7 +80,9 @@ public class LogsService {
 
 			if (awlogHashtag == null) {
 
-				listaAwlogHashtag.add(AwlogHashtag.builder().description(Util.obtenerHashTagSinGato(hashTag)).build());
+				awlogHashtag = AwlogHashtag.builder().description(Util.obtenerHashTagSinGato(hashTag)).build();
+
+				listaAwlogHashtag.add(awlogHashtag);
 
 			}
 

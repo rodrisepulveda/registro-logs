@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entidad que referencia a la tabla awlog_hashtag.
@@ -23,8 +25,10 @@ import lombok.Value;
  */
 @Entity
 @Table(name = "awlog_logger_hashtag")
-@Value
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AwlogLoggerHashtag implements Serializable {
 
 	/**
